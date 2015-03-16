@@ -88,6 +88,7 @@ let s:colors.cyan    = { 'gui': '#33859E', 'cterm': 6  }
 let s:colors.green   = { 'gui': '#2aa889', 'cterm': 2  }
 
 
+
 " Native highlighting ==========================================================
 
 let s:background = 'base0'
@@ -102,7 +103,7 @@ call s:Col('CursorLine', '', 'base1')
 call s:Col('CursorColumn', '', 'base1')
 
 " Sign column, line numbers.
-call s:Col('LineNr', 'base4', s:linenr_background)
+call s:Col('LineNr', 'base4', 'base0')
 call s:Col('CursorLineNr', 'base5', s:linenr_background)
 call s:Col('SignColumn', '', s:linenr_background)
 call s:Col('ColorColumn', '', s:linenr_background)
@@ -114,9 +115,9 @@ call s:Col('Visual', '', 'base3')
 call s:Col('Comment', 'base4')
 call s:Col('String', 'green')
 call s:Col('Number', 'orange')
-call s:Col('Statement', 'base5')
+call s:Col('Statement', 'green')
 call s:Col('Special', 'orange')
-call s:Col('Identifier', 'base5')
+call s:Col('Identifier', 'red')
 
 " Constants, Ruby symbols.
 call s:Col('Constant', 'magenta')
@@ -129,13 +130,13 @@ call s:Col('Underlined', 'yellow')
 call s:Attr('Underlined', 'underline')
 
 " Types, HTML attributes, Ruby constants (and class names).
-call s:Col('Type', 'orange')
+call s:Col('Type', 'green')
 
 " Stuff like 'require' in Ruby.
 call s:Col('PreProc', 'red')
 
 " Tildes on the bottom of the page.
-call s:Col('NonText', 'base4')
+call s:Col('NonText', 'base0')
 
 " Concealed stuff.
 call s:Col('Conceal', 'cyan', s:background)
@@ -203,7 +204,7 @@ call s:Col('Directory', 'cyan')
 " Programming languages and filetypes ==========================================
 
 " Ruby.
-call s:Col('rubyDefine', 'blue')
+call s:Col('rubyDefine', 'red')
 call s:Col('rubyStringDelimiter', 'green')
 
 " HTML (and often Markdown).
