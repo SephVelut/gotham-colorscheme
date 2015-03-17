@@ -48,6 +48,10 @@ function! s:Col(group, fg_name, ...)
     let pieces = s:AddGroundValues(pieces, 'bg', s:colors[a:1])
   endif
 
+  if exists("a:2") > 0 && a:0 > 0 && a:2 !=# ''
+    let pieces = s:AddGroundValues(pieces, '', s:fonts[a:2])
+  endif
+
   call s:Clear(a:group)
   call s:Highlight(pieces)
 endfunction
@@ -59,6 +63,7 @@ endfunction
 
 function! s:Clear(group)
   exec 'highlight clear ' . a:group
+
 endfunction
 
 
@@ -66,6 +71,7 @@ endfunction
 
 " Let's store all the colors in a dictionary.
 let s:colors = {}
+let s:fonts = {}
 
 " Base colors.
 let s:colors.base0 = { 'gui': '#0c1014', 'cterm': 0 }
@@ -81,13 +87,15 @@ let s:colors.base7 = { 'gui': '#d3ebe9', 'cterm': 15 }
 let s:colors.red     = { 'gui': '#c23127', 'cterm': 1  }
 let s:colors.orange  = { 'gui': '#d26937', 'cterm': 9  }
 let s:colors.yellow  = { 'gui': '#edb443', 'cterm': 3  }
-let s:colors.magenta = { 'gui': '#888ca6', 'cterm': 13 }
+let s:colors.magenta = { 'gui': '#888ca6', 'cterm': 13  }
 let s:colors.violet  = { 'gui': '#4e5166', 'cterm': 5  }
 let s:colors.blue    = { 'gui': '#195466', 'cterm': 4  }
 let s:colors.cyan    = { 'gui': '#33859E', 'cterm': 6  }
 let s:colors.green   = { 'gui': '#2aa889', 'cterm': 2  }
+let s:colors.white   = { 'gui': '#2aa889', 'cterm': 15  }
 
-
+" Fonts
+let s:fonts.bold = { 'gui': 'bold', 'cterm': 'bold' }
 
 " Native highlighting ==========================================================
 
@@ -95,7 +103,7 @@ let s:background = 'base0'
 let s:linenr_background = 'base1'
 
 " Everything starts here.
-call s:Col('Normal', 'base6', s:background)
+call s:Col('Normal', 'cyan', s:background)
 
 " Line, cursor and so on.
 call s:Col('Cursor', 'base1', 'base6')
@@ -109,15 +117,19 @@ call s:Col('SignColumn', '', s:linenr_background)
 call s:Col('ColorColumn', '', s:linenr_background)
 
 " Visual selection.
-call s:Col('Visual', '', 'base3')
+call s:Col('Visual', '', 'red')
 
 " Easy-to-guess code elements.
 call s:Col('Comment', 'base4')
-call s:Col('String', 'green')
-call s:Col('Number', 'orange')
-call s:Col('Statement', 'green')
-call s:Col('Special', 'orange')
-call s:Col('Identifier', 'red')
+call s:Col('String', 'yellow')
+call s:Col('Number', 'cyan')
+call s:Col('Statement', 'violet')
+call s:Col('Special', 'blue')
+call s:Col('Identifier', 'orange')
+hi Function ctermfg=2 cterm=bold
+call s:Col('Conditional', 'red')
+call s:Col('Repeat', 'red')
+call s:Col('Structure', 'red')
 
 " Constants, Ruby symbols.
 call s:Col('Constant', 'magenta')
@@ -130,10 +142,10 @@ call s:Col('Underlined', 'yellow')
 call s:Attr('Underlined', 'underline')
 
 " Types, HTML attributes, Ruby constants (and class names).
-call s:Col('Type', 'green')
+hi Type cterm=bold ctermfg=2
 
 " Stuff like 'require' in Ruby.
-call s:Col('PreProc', 'red')
+call s:Col('PreProc', 'violet')
 
 " Tildes on the bottom of the page.
 call s:Col('NonText', 'base0')
@@ -149,7 +161,7 @@ call s:Col('VertSplit', 'base4', s:linenr_background)
 call s:Col('StatusLineNC', 'base4', 'base2')
 
 " Matching parenthesis.
-call s:Col('MatchParen', 'base1', 'orange')
+call s:Col('MatchParen', 'base7', 'red')
 
 " Special keys, e.g. some of the chars in 'listchars'. See ':h listchars'.
 call s:Col('SpecialKey', 'base3')
@@ -204,8 +216,19 @@ call s:Col('Directory', 'cyan')
 " Programming languages and filetypes ==========================================
 
 " Ruby.
+
+if &filetype == "ruby"
+  syn match rubyOperator "[~!^&|*/%+-]\|\%(class\s*\)\@<!<<\|<=>\|<=\|\%(<\|\<class\s\+\u\w*\s*\)\@<!<[^<]\@=\|===\|==\|=\~\|>>\|>=\|=\@<!>\|\*\*\|\.\.\.\|\.\.\|::"
+  syn match rubyOperator "->\|-=\|/=\|\*\*=\|\*=\|&&=\|&=\|&&\|||=\||=\|||\|%=\|+=\|!\~\|!="
+  syn region rubyBracketOperator matchgroup=rubyOperator start="\%(\w[?!]\=\|[]})]\)\@<=\[\s*" end="\s*]" contains=ALLBUT,@rubyNotTop
+  syn match rubyBlockParameter  "\%(\h\|[^\x00-\x7F]\)\%(\w\|[^\x00-x00\x7F]\)*" contained
+  syn region rubyBlockParameterList start="\%(\%(\<do\>\|{\)\s*\)\@<=|" end="|" oneline display contains=rubyBlockParameter
+endif
+
 call s:Col('rubyDefine', 'red')
-call s:Col('rubyStringDelimiter', 'green')
+call s:Col('rubyControl', 'red')
+call s:Col('rubyStringDelimiter', 'yellow')
+call s:Col('rubyBlockParameter', 'cyan')
 
 " HTML (and often Markdown).
 call s:Col('htmlArg', 'blue')
