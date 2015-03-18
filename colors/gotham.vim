@@ -123,7 +123,7 @@ call s:Col('Visual', '', 'red')
 call s:Col('Comment', 'base4')
 call s:Col('String', 'yellow')
 call s:Col('Number', 'cyan')
-call s:Col('Statement', 'violet')
+call s:Col('Statement', 'green')
 call s:Col('Special', 'blue')
 call s:Col('Identifier', 'orange')
 hi Function ctermfg=2 cterm=bold
@@ -223,8 +223,14 @@ if &filetype == "ruby"
   syn region rubyBracketOperator matchgroup=rubyOperator start="\%(\w[?!]\=\|[]})]\)\@<=\[\s*" end="\s*]" contains=ALLBUT,@rubyNotTop
   syn match rubyBlockParameter  "\%(\h\|[^\x00-\x7F]\)\%(\w\|[^\x00-x00\x7F]\)*" contained
   syn region rubyBlockParameterList start="\%(\%(\<do\>\|{\)\s*\)\@<=|" end="|" oneline display contains=rubyBlockParameter
+  syn match rubyMethArg "\v\(.*\)"
+  syn match rubyMethCall "\(def self\..*\)\@<!\w\+\((\)\@="
+  syn match rubySymbols "[(){}\:=><;.&|,\[\]]"
 endif
 
+call s:Col('rubySymbols', 'red')
+call s:Col('rubyOperator', 'red')
+call s:Col('rubyMethCall', 'green')
 call s:Col('rubyDefine', 'red')
 call s:Col('rubyControl', 'red')
 call s:Col('rubyStringDelimiter', 'yellow')
