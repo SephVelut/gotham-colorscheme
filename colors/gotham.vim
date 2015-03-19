@@ -225,10 +225,12 @@ if &filetype == "ruby"
   syn region rubyBlockParameterList start="\%(\%(\<do\>\|{\)\s*\)\@<=|" end="|" oneline display contains=rubyBlockParameter
   syn match rubyMethArg "\v\(.*\)"
   syn match rubyMethCall "\(def self\..*\)\@<!\w\+\((\)\@="
-  syn match rubySymbols "[(){}\:=><;.&|,\[\]]"
+  syn match rubySpecialSymbols "[(){}\:=><;.&|,\[\]]"
+  syn match rubySymbols "\(:\)\@<!:\w\+"
 endif
 
-call s:Col('rubySymbols', 'red')
+call s:Col('rubySpecialSymbols', 'red')
+call s:Col('rubySymbols', 'magenta')
 call s:Col('rubyOperator', 'red')
 call s:Col('rubyMethCall', 'green')
 call s:Col('rubyDefine', 'red')
