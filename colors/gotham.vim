@@ -126,6 +126,7 @@ call s:Col('Number', 'cyan')
 call s:Col('Statement', 'green')
 call s:Col('Special', 'blue')
 call s:Col('Identifier', 'orange')
+highlight clear Function
 hi Function ctermfg=2 cterm=bold
 call s:Col('Conditional', 'red')
 call s:Col('Repeat', 'red')
@@ -142,6 +143,7 @@ call s:Col('Underlined', 'yellow')
 call s:Attr('Underlined', 'underline')
 
 " Types, HTML attributes, Ruby constants (and class names).
+highlight clear Type
 hi Type cterm=bold ctermfg=2
 
 " Stuff like 'require' in Ruby.
@@ -225,18 +227,18 @@ if &filetype == "ruby"
   syn region rubyBlockParameterList start="\%(\%(\<do\>\|{\)\s*\)\@<=|" end="|" oneline display contains=rubyBlockParameter
   syn match rubyMethArg "\v\(.*\)"
   syn match rubyMethCall "\(def self\..*\)\@<!\w\+\((\)\@="
-  syn match rubySpecialSymbols "[(){}\:=><;.&|,\[\]]"
-  syn match rubySymbols "\(:\)\@<!:\w\+"
+  syn match specialSymbols "[(){}\:=><;.&|,\[\]]"
+  syn match rubySyms "\(:\)\@<!:\w\+"
 endif
 
-call s:Col('rubySpecialSymbols', 'red')
-call s:Col('rubySymbols', 'magenta')
+call s:Col('rubySyms', 'magenta')
 call s:Col('rubyOperator', 'red')
 call s:Col('rubyMethCall', 'green')
 call s:Col('rubyDefine', 'red')
 call s:Col('rubyControl', 'red')
 call s:Col('rubyStringDelimiter', 'yellow')
 call s:Col('rubyBlockParameter', 'cyan')
+"call s:Col('specialSymbols', 'red')
 
 " HTML (and often Markdown).
 call s:Col('htmlArg', 'blue')
@@ -262,7 +264,6 @@ call s:Col('CtrlPPtrCursor', 'base7')           " cursor in the prompt
 " unite.vim
 call s:Col('UniteGrep', 'base7', 'green')
 let g:unite_source_grep_search_word_highlight = 'UniteGrep'
-
 
 " Cleanup =====================================================================
 
