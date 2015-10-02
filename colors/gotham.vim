@@ -103,9 +103,9 @@ let s:background = 'base0'
 let s:linenr_background = 'base1'
 
 " Everything starts here.
-call s:Col('Normal', 'cyan', s:background)
-
-" Line, cursor and so on.
+call s:Col('Normal', 'white', s:background)
+"
+"" Line, cursor and so on.
 call s:Col('Cursor', 'base1', 'base6')
 call s:Col('CursorLine', '', 'base1')
 call s:Col('CursorColumn', '', 'base1')
@@ -122,7 +122,7 @@ call s:Col('Visual', '', 'red')
 " Easy-to-guess code elements.
 call s:Col('Comment', 'base4')
 call s:Col('String', 'yellow')
-call s:Col('Number', 'cyan')
+call s:Col('Number', 'white')
 call s:Col('Statement', 'green')
 call s:Col('Special', 'blue')
 call s:Col('Identifier', 'orange')
@@ -227,18 +227,19 @@ if &filetype == "ruby"
   syn region rubyBlockParameterList start="\%(\%(\<do\>\|{\)\s*\)\@<=|" end="|" oneline display contains=rubyBlockParameter
   syn match rubyMethArg "\v\(.*\)"
   syn match rubyMethCall "\(def self\..*\)\@<!\w\+\((\)\@="
-  syn match specialSymbols "[(){}\:=><;.&|,\[\]]"
+"syntax match specialSymbols "[(){}\:=><;.&|,\[\]]"
   syn match rubySyms "\(:\)\@<!:\w\+"
 endif
 
+syn match specialSymbols "[+()=*{}|,><.\[\]]"
+call s:Col('specialSymbols', 'cyan')
 call s:Col('rubySyms', 'magenta')
-call s:Col('rubyOperator', 'red')
+call s:Col('rubyOperator', 'white')
 call s:Col('rubyMethCall', 'green')
 call s:Col('rubyDefine', 'red')
 call s:Col('rubyControl', 'red')
 call s:Col('rubyStringDelimiter', 'yellow')
 call s:Col('rubyBlockParameter', 'cyan')
-"call s:Col('specialSymbols', 'red')
 
 " HTML (and often Markdown).
 call s:Col('htmlArg', 'blue')
@@ -261,9 +262,12 @@ call s:Col('CtrlPPrtBase', 'base4')             " '>>>' prompt
 call s:Col('CtrlPPrtText', 'cyan')              " text in the prompt
 call s:Col('CtrlPPtrCursor', 'base7')           " cursor in the prompt
 
-" unite.vim
-call s:Col('UniteGrep', 'base7', 'green')
-let g:unite_source_grep_search_word_highlight = 'UniteGrep'
+" Highlight argument when cursor is above them
+"autocmd CursorMoved * exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+"
+"" unite.vim
+"call s:Col('UniteGrep', 'base7', 'green')
+"let g:unite_source_grep_search_word_highlight = 'UniteGrep'
 
 " Cleanup =====================================================================
 
